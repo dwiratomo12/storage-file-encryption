@@ -22,7 +22,7 @@ class FileController extends Controller
     {
         $q = $request->input('q');
 
-        $active = 'files';
+        $active = 'Files';
 
         $files = $files->when($q, function ($query) use ($q) {
             return $query->where('filename', 'like', '%' . $q . '%');
@@ -52,7 +52,6 @@ class FileController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'key'           => 'required|unique:App\Models\File,key',
-            'description'   => 'required',
             'file'          => 'required|mimes:pdf,doc,docx,txt,zip', 'max:2048'
         ]);
 
@@ -66,7 +65,7 @@ class FileController extends Controller
             $requestFile = $request->file('file');
             $fileName = $requestFile->getClientOriginalName();
             $key = $request->input('key');
-            // new Encrypter($key);
+            $key = Crypt::encryptString($key);
             // Storage::disk('s3')->put($fileName, fopen($requestFile, 'r+'), 'public'); //upload to s3
             Storage::disk('s3')->put($fileName, Crypt::encrypt($request->file('file')->getContent())); //upload to s3
 
@@ -82,32 +81,20 @@ class FileController extends Controller
         }
     }
 
-    public function downloads(File $file){
+    public function downloads(Request $request, File $file){
         $headers = ['Content-Disposition' => 'attachment; filename="' .$file->filename. '"'];
-        // return response()->streamDownload(function(File $file) {
-        //     echo Crypt::decrypt(Storage::disk('s3')->get($file->filename));
-        // }, $file->filename);
         // $url = `https://s3.ap-southeast-1.amazonaws.com/sharing-file-wsf/$file->filename` . urlencode($file->filename);
-        $requestFile = Storage::disk('s3')->get($file->filename);
-        Storage::put('files/'.$file->filename, $requestFile);
+        // if (Crypt::decryptString($file->key) == $request->input('key')){}
+        $requestFile = Storage::disk('s3')->get($file->filename); //ambil file dari aws s3
+        Storage::put('files/'.$file->filename, $requestFile); // simpan file decrypt 
         $getfile = Storage::get('files/'.$file->filename);
-        $decryptfile = Crypt::decrypt($getfile);
-        // $filename = $requestFile->getClientOriginalName();
-        // $key = $file->key;
-        // $decryptfile = Crypt::decrypt($key, $requestFile);
-        // return Response::make(Crypt::decrypt(Storage::disk('s3')->get($file->filename), 200, $headers));
+        $decryptfile = Crypt::decrypt($getfile); //dekripsi file
         return Response::make($decryptfile, 200, $headers);
-        // return response()->streamDownload(function() use($decryptfile) {
-        //     echo $decryptfile;
-        // },200, $headers);
     }
     
-    public function destroy(Request $request, File $file)
+    public function destroy(File $file)
     {
-        $requestFile = $request->file('file');
-        $input_file = $requestFile->getClientOriginalName();
-        // $file_name = pathinfo($input_file, PATHINFO_FILENAME);
-        $title = $input_file;
+        $title = $file->filename;
         Storage::disk('s3')->delete($title);
         $file->delete();
         return redirect()

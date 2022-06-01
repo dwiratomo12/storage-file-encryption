@@ -8,12 +8,6 @@
         <div class="col-8 align-self-center">
           <h3>Files</h3>
         </div>
-        {{-- search form --}}
-        <div class="col-4 text-right">
-          <button class="btn btn-sm text-secondary" title="Delete" data-toggle="modal" data-target="#deleteModal">
-            <i class="fas fa-trash"></i>
-          </button>
-        </div>
       </div>
     </div>
         
@@ -41,13 +35,13 @@
               <span class="text-danger">{{ $message }}</span>
             @enderror
           </div>
-          <div class="form-group">
+          {{-- <div class="form-group">
             <label for="description">Description</label>
             <textarea name="description" class="form-control @error('description') {{ 'is-invalid' }} @enderror" cols="30" rows="10">{{ old('description') ?? $file->description ?? ''}}</textarea>
             @error('description')
               <span class="text-danger">{{ $message }}</span>
             @enderror
-          </div>
+          </div> --}}
           <div class="form-group mb-0">
             <button type="button" onclick="window.history.back()" class="btn btn-sm btn-secondary">Cancel</button>
             <button type="submit" class="btn btn-success btn-sm">{{ $button }}</button>
@@ -57,33 +51,5 @@
       </div>
     </div>
   </div>
-
-  @if(isset($file))
-  <div class="modal fade" id="deleteModal">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5>Delete</h5>
-          <button type="button" class="close" title="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-
-        <div class="modal-body">
-          <p>Anda yaking ingin hapus movie</p>
-        </div>
-
-        <div class="modal-footer">
-          <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal"><i class="fas fa-times"></i> Cancel</button>
-          <form action="{{ route('dashboard.files.delete', $file->id) }}" method="POST">
-            @csrf
-            @method('delete')
-            <button class="btn btn-sm btn-danger" title="Delete"><i class="fas fa-trash"> Delete</i></button>
-          </form>
-        </div>
-      </div>
-    </div>
-  </div>
-  @endif
    
 @endsection

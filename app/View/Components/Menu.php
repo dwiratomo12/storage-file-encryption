@@ -39,11 +39,11 @@ class Menu extends Component
                 'route' => 'dashboard',
                 'icon'  => 'fas fa-tachometer-alt'
             ],
-            [
-                'label' => 'Files',
-                'route' => 'dashboard.files',
-                'icon'  => 'fas fa-file'
-            ],
+            // [
+            //     'label' => 'Files',
+            //     'route' => 'dashboard.files',
+            //     'icon'  => 'fas fa-file'
+            // ],
             // [
             //     'label' => 'Movies',
             //     'route' => 'dashboard.movies',
@@ -65,6 +65,11 @@ class Menu extends Component
     public function client()
     {
         return [
+            [
+                'label' => 'Dashboard',
+                'route' => 'dashboard',
+                'icon'  => 'fas fa-tachometer-alt'
+            ],
             [
                 'label' => 'Files',
                 'route' => 'dashboard.files',

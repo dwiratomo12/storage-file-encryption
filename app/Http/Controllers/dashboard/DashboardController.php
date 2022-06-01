@@ -15,7 +15,11 @@ class DashboardController extends Controller
     public function index()
     {
         $active = 'Dashboard';
-        return view('dashboard', ['active' => $active]);
+        if (auth()->user()->role == 'admin') {
+            return view('dashboard', ['active' => $active]);
+        }else{
+            return view('dashboard', ['active' => $active]);
+        }
     }
 
     /**

@@ -13,8 +13,11 @@
                         {{ session('status') }}
                     </div>
                     @endif
-
-                    {{ __('You are logged in!') }}
+                    @if(auth()->user()->role == 'admin')
+                    {{ __('Selamat datang admin ') }} {{ auth()->user()->name }}
+                    @else
+                    {{ __('Selamat datang user ') }} {{ auth()->user()->name }}
+                    @endif
                 </div>
             </div>
         </div>
