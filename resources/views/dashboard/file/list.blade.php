@@ -13,7 +13,15 @@
         <span>&times;</span>
       </button>
     </div>
+  @elseif(session()->has('error'))
+    <div class="alert alert-danger">
+      <strong>{{ session()->get('error') }}</strong>
+      <button type="button" class="close" data-dismiss="alert">
+        <span>&times;</span>
+      </button>
+    </div>
   @endif
+
 
   <div class="card">
     <div class="card-header">
@@ -124,7 +132,7 @@
         </div>
 
         <div class="modal-body">
-          <form action="{{ route('dashboard.files.downloads', $file->id) }}" method="POST">
+          <form action="{{ route('dashboard.files.downloads', $file->id) }}" method="GET">
             @csrf
             @if(isset($file))
               @method('put')
@@ -136,19 +144,17 @@
                 <span class="text-danger">{{ $message }}</span>
               @enderror
             </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal"><i class="fas fa-times"></i> Cancel</button>
+              <button class="btn btn-sm btn-success" title="submit"><i class="fas fa-download"> Submit</i></button>
+            </div>
           </form>
         </div>
 
-        <div class="modal-footer">
-          <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal"><i class="fas fa-times"></i> Cancel</button>
-          <form action="{{ route('dashboard.files.downloads', $file->id) }}" method="POST">
-            @csrf
-            <button class="btn btn-sm btn-success" title="submit"><i class="fas fa-trash"> Submit</i></button>
-          </form>
-        </div>
       </div>
     </div>
   </div>
   @endif
+
   
 @endsection
