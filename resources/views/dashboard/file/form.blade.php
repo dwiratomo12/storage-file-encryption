@@ -21,8 +21,8 @@
           @endif
           <div class="form-group mt-4">
             <div class="custom-file">
-              <input type="file" class="custom-file-input" value="old('filename')" id="filename" name="file">
-              <label for="filename" class="custom-file-label">Choose File</label>
+              <label for="filename" class="form-control-label">Upload File</label>
+              <input type="file" class="form-control" value="old('filename')" id="filename" name="file">
               @error('filename')
                 <span class="text-danger">{{ $message }}</span>
               @enderror
@@ -35,13 +35,6 @@
               <span class="text-danger">{{ $message }}</span>
             @enderror
           </div>
-          {{-- <div class="form-group">
-            <label for="description">Description</label>
-            <textarea name="description" class="form-control @error('description') {{ 'is-invalid' }} @enderror" cols="30" rows="10">{{ old('description') ?? $file->description ?? ''}}</textarea>
-            @error('description')
-              <span class="text-danger">{{ $message }}</span>
-            @enderror
-          </div> --}}
           <div class="form-group mb-0">
             <button type="button" onclick="window.history.back()" class="btn btn-sm btn-secondary">Cancel</button>
             <button type="submit" class="btn btn-success btn-sm">{{ $button }}</button>

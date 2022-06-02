@@ -84,12 +84,18 @@ class FileController extends Controller
     public function downloads(Request $request, File $file){
         $headers = ['Content-Disposition' => 'attachment; filename="' .$file->filename. '"'];
         // $url = `https://s3.ap-southeast-1.amazonaws.com/sharing-file-wsf/$file->filename` . urlencode($file->filename);
-        // if (Crypt::decryptString($file->key) == $request->input('key')){}
-        $requestFile = Storage::disk('s3')->get($file->filename); //ambil file dari aws s3
-        Storage::put('files/'.$file->filename, $requestFile); // simpan file decrypt 
-        $getfile = Storage::get('files/'.$file->filename);
-        $decryptfile = Crypt::decrypt($getfile); //dekripsi file
-        return Response::make($decryptfile, 200, $headers);
+        if (Crypt::decryptString($file->key) == $request->input('key')){
+            $requestFile = Storage::disk('s3')->get($file->filename); //ambil file dari aws s3
+            Storage::put('files/'.$file->filename, $requestFile); // simpan file decrypt 
+            $getfile = Storage::get('files/'.$file->filename);
+            $decryptfile = Crypt::decrypt($getfile); //dekripsi file
+            return Response::make($decryptfile, 200, $headers);
+        }else{
+            return redirect()
+            ->route('dashboard.files')
+            ->with('error', __('messages.wrong'));
+        }
+        
     }
     
     public function destroy(File $file)
@@ -97,6 +103,9 @@ class FileController extends Controller
         $title = $file->filename;
         Storage::disk('s3')->delete($title);
         $file->delete();
+        if (Storage::exists('files/'. $title)){
+            Storage::delete('files/'. $title);
+        }
         return redirect()
         ->route('dashboard.files')
         ->with('message', __('messages.delete', ['title' => $title]));
