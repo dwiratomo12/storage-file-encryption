@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Dashboard;
 
 use App\Models\File;
 use App\Models\User;
+use Faytekin\LZW\LZW;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Encryption\Encrypter;
@@ -13,7 +14,6 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Validator;
-use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class FileController extends Controller
 {
@@ -66,8 +66,11 @@ class FileController extends Controller
             $fileName = $requestFile->getClientOriginalName();
             $key = $request->input('key');
             $key = Crypt::encryptString($key);
+            $encryptfile = Crypt::encrypt($request->file('file')->getContent());
+            $lzw = new LZW();
+            $compressfile = $lzw->compress($encryptfile);
             // Storage::disk('s3')->put($fileName, fopen($requestFile, 'r+'), 'public'); //upload to s3
-            Storage::disk('s3')->put($fileName, Crypt::encrypt($request->file('file')->getContent())); //upload to s3
+            Storage::disk('s3')->put($fileName, $compressfile); //upload to s3
 
             //save the file
             $file->user_id = $userId;
@@ -88,7 +91,9 @@ class FileController extends Controller
             $requestFile = Storage::disk('s3')->get($file->filename); //ambil file dari aws s3
             Storage::put('files/'.$file->filename, $requestFile); // simpan file decrypt 
             $getfile = Storage::get('files/'.$file->filename);
-            $decryptfile = Crypt::decrypt($getfile); //dekripsi file
+            $lzw = new LZW();
+            $decompressfile = $lzw->decompress($getfile);
+            $decryptfile = Crypt::decrypt($decompressfile); //dekripsi file
             return Response::make($decryptfile, 200, $headers);
         }else{
             return redirect()

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ec8fbf7fc0cd7f483e47c3e4452e8025",
+    "content-hash": "b9195e8c043b89a8e12f00dfce1340a6",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -633,6 +633,58 @@
                 }
             ],
             "time": "2020-12-29T14:50:06+00:00"
+        },
+        {
+            "name": "faytekin/lzw",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/faytekin/lzw.git",
+                "reference": "e9f8f5a6bb45733bdc390609aa73dbb3299441c5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/faytekin/lzw/zipball/e9f8f5a6bb45733bdc390609aa73dbb3299441c5",
+                "reference": "e9f8f5a6bb45733bdc390609aa73dbb3299441c5",
+                "shasum": ""
+            },
+            "require": {
+                "ext-mbstring": "*",
+                "php": ">=7.2"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^8.0 || ^9.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Faytekin\\LZW\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fatih Aytekin",
+                    "email": "fatih@aytekin.me",
+                    "homepage": "https://fatihaytekin.com/",
+                    "role": "developer"
+                }
+            ],
+            "description": "Compression library for Lempel–Ziv–Welch (LZW) for PHP",
+            "homepage": "https://github.com/faytekin/lzw",
+            "keywords": [
+                "LZW PHP",
+                "compression",
+                "lzw"
+            ],
+            "support": {
+                "issues": "https://github.com/faytekin/lzw/issues",
+                "source": "https://github.com/faytekin/lzw/tree/v1.0.0"
+            },
+            "time": "2020-11-29T19:52:00+00:00"
         },
         {
             "name": "fideloper/proxy",
