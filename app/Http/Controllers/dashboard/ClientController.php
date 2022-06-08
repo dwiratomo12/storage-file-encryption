@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Models\User;
-use App\Models\Client;
+use App\Models\Clients;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Validator;
 
 class ClientController extends Controller
 {
-    public function index(Request $request, Client $client)
+    public function index(Request $request, Clients $client)
     {
         $q = $request->input('q');
 
@@ -24,8 +24,8 @@ class ClientController extends Controller
             ->paginate(10);
 
         $request = $request->all();
-        return view('dashboard/client/list', [
-            'client' => $client,
+        return view('dashboard/clients/list', [
+            'clients' => $client,
             'request' => $request,
             'active' => $active
         ]);
@@ -41,10 +41,10 @@ class ClientController extends Controller
         $active = 'Users';
 
 
-        return view('dashboard/client/form', [
+        return view('dashboard/clients/form', [
             'active'    => $active,
             'button'    => 'Create',
-            'url'       => 'dashboard.client.store'
+            'url'       => 'dashboard.clients.store'
         ]);
     }
 
@@ -54,7 +54,7 @@ class ClientController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, Client $client)
+    public function store(Request $request, Clients $client)
     {
         $validator = Validator::make($request->all(), [
             'name'        => 'required',
@@ -64,7 +64,7 @@ class ClientController extends Controller
 
         if ($validator->fails()) {
             return redirect()
-                ->route('dashboard.client.create')
+                ->route('dashboard.clients.create')
                 ->withErrors($validator)
                 ->withInput();
         } else {
@@ -86,8 +86,8 @@ class ClientController extends Controller
 
 
             return redirect()
-                ->route('dashboard.client')
-                ->with('message', __('messages.store', ['title' => $request->input('name')]));
+                ->route('dashboard.clients')
+                ->with('message', __('messages.user_store', ['title' => $request->input('name')]));
         }
     }
 
@@ -97,7 +97,7 @@ class ClientController extends Controller
      * @param  \App\Models\client  $client
      * @return \Illuminate\Http\Response
      */
-    public function show(Client $client)
+    public function show(Clients $client)
     {
         //
     }
@@ -108,14 +108,14 @@ class ClientController extends Controller
      * @param  \App\Models\client  $client
      * @return \Illuminate\Http\Response
      */
-    public function edit(Client $client, $id)
+    public function edit(Clients $client, $id)
     {
         $active = 'Users';
-        $client = Client::find($id);
-        return view('dashboard/client/form', [
-            'client' => $client,
+        $client = Clients::find($id);
+        return view('dashboard/clients/form', [
+            'clients' => $client,
             'active'    => $active,
-            'url'       => 'dashboard.client.update',
+            'url'       => 'dashboard.clients.update',
             'button'    => 'Update'
         ]);
     }
@@ -127,18 +127,18 @@ class ClientController extends Controller
      * @param  \App\Models\client  $client
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Client $client, $id)
+    public function update(Request $request, Clients $client, $id)
     {
         $validator = Validator::make($request->all(), [
             'name'        => 'required',
             'email'       => 'required',
             'password'    => 'required',
         ]);
-        $client = Client::find($id);
+        $client = Clients::find($id);
 
         if ($validator->fails()) {
             return redirect()
-                ->route('dashboard.client.update', $client->id)
+                ->route('dashboard.clients.update', $client->id)
                 ->withErrors($validator)
                 ->withInput();
         } else {
@@ -148,7 +148,7 @@ class ClientController extends Controller
             $client->password = bcrypt($request->input('password'));
             $client->save();
             return redirect()
-                ->route('dashboard.client')
+                ->route('dashboard.clients')
                 ->with('message', __('messages.update', ['title' => $request->input('name')]));
         }
     }
@@ -159,15 +159,15 @@ class ClientController extends Controller
      * @param  \App\Models\client  $client
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Client $client, $id)
+    public function destroy($id)
     {
+        $client = Clients::find($id);
         $title = $client->name;
-        $client = Client::find($id);
 
-        $client->delete($client);
+        $client->delete();
 
         return redirect()
-            ->route('dashboard.client')
-            ->with('message', __('messages.delete', ['title' => $title]));
+            ->route('dashboard.clients')
+            ->with('message', __('messages.user_delete', ['title' => $title]));
     }
 }

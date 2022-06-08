@@ -26,12 +26,12 @@ Route::group(['middleware' => ['auth', 'checkRole:admin']], function () {
     Route::get('/dashboard/tickets', [App\Http\Controllers\Dashboard\TicketController::class, 'index'])->name('dashboard.tickets');
     
     //client
-    Route::get('/dashboard/client', [App\Http\Controllers\Dashboard\ClientController::class, 'index'])->name('dashboard.client');
-    Route::get('/dashboard/client/create', [App\Http\Controllers\Dashboard\ClientController::class, 'create'])->name('dashboard.client.create');
-    Route::post('/dashboard/client', [App\Http\Controllers\Dashboard\ClientController::class, 'store'])->name('dashboard.client.store');
-    Route::get('/dashboard/client/{id}', [App\Http\Controllers\Dashboard\ClientController::class, 'edit'])->name('dashboard.client.edit');
-    Route::put('/dashboard/client/{id}', [App\Http\Controllers\Dashboard\ClientController::class, 'update'])->name('dashboard.client.update');
-    Route::delete('/dashboard/client/{id}', [App\Http\Controllers\Dashboard\ClientController::class, 'destroy'])->name('dashboard.client.delete');
+    Route::get('/dashboard/clients', [App\Http\Controllers\Dashboard\ClientController::class, 'index'])->name('dashboard.clients');
+    Route::get('/dashboard/clients/create', [App\Http\Controllers\Dashboard\ClientController::class, 'create'])->name('dashboard.clients.create');
+    Route::post('/dashboard/clients', [App\Http\Controllers\Dashboard\ClientController::class, 'store'])->name('dashboard.clients.store');
+    Route::get('/dashboard/clients/{id}', [App\Http\Controllers\Dashboard\ClientController::class, 'edit'])->name('dashboard.clients.edit');
+    Route::put('/dashboard/clients/{id}', [App\Http\Controllers\Dashboard\ClientController::class, 'update'])->name('dashboard.clients.update');
+    Route::delete('/dashboard/clients/{id}', [App\Http\Controllers\Dashboard\ClientController::class, 'destroy'])->name('dashboard.clients.delete');
     
     //Users
     Route::get('/dashboard/users', [App\Http\Controllers\Dashboard\UserController::class, 'index'])->name('dashboard.users');

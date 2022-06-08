@@ -7,7 +7,7 @@
       </a>
     @endforeach
   @else
-    @foreach($client AS $row)
+    @foreach($clients AS $row)
     <a href="{{ route($row['route']) }}" class="nav-link {{ $isActive($row['label']) ? 'active':'' }}">
       <i class="icon-menu {{ $row['icon'] }}"></i> 
       {{ $row['label'] }}

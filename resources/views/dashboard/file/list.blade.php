@@ -103,7 +103,7 @@
         </div>
 
         <div class="modal-body">
-          <p>Anda yaking ingin hapus file</p>
+          <p>Anda yaking ingin hapus file ?</p>
         </div>
 
         <div class="modal-footer">

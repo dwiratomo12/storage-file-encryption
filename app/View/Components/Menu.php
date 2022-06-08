@@ -56,7 +56,7 @@ class Menu extends Component
             // ],
             [
                 'label' => 'Users',
-                'route' => 'dashboard.client',
+                'route' => 'dashboard.clients',
                 'icon'  => 'fas fa-users'
             ],
         ];
