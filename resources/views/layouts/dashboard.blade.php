@@ -8,7 +8,7 @@
   <!-- CSRF Token -->
   <meta name="csrf-token" content="{{ csrf_token() }}">
 
-  <title>{{ config('app.name', 'wegodevTix') }}</title>
+  {{-- <title>{{ config('app.name', 'File Encryption') }}</title> --}}
   <title>File Encryption</title>
 
   <!-- Scripts -->
@@ -51,11 +51,11 @@
             </li>
             @endif
 
-            @if (Route::has('register'))
+            {{-- @if (Route::has('register'))
             <li class="nav-item">
               <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
             </li>
-            @endif
+            @endif --}}
             @else
             <li class="nav-item dropdown">
               <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown"
